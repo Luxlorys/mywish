@@ -1,0 +1,74 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap'); */
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.left-container, .right-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.left-content, .right-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-container {
+    width: 60vw;
+    background-color: rgb(6, 197, 197);
+    font-size: 28px;
+}
+
+.right-container {
+    width: 40vw;
+    /* Adjust as needed */
+}
+
+.right-content {
+    width: 25vw;
+    margin: 0 auto; /* Center horizontally */
+}
+
+/* Media query for screens smaller than 600px */
+@media only screen and (max-width: 728px) {
+    .container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .left-container {
+        width: 100%; /* Collapse to full width */
+        height: 45vh;
+    }
+
+    .right-container {
+        width: 100%; /* Full width for smaller screens */
+        height: 55vh;
+    }
+
+    .right-content {
+        width: 55vw;
+    }
+
+    .left-content {
+        font-size: 22px;
+    }
+}
