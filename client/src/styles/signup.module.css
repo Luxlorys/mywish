@@ -13,7 +13,7 @@ body {
     height: 100vh;
 }
 
-.left-container, .right-container {
+.leftContainer, .rightContainer {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -21,13 +21,13 @@ body {
     flex-direction: column;
 }
 
-.left-container {
+.leftContainer {
     flex: 0.4;
     background-color: rgb(6, 197, 197);
     width: 30%;
 }
 
-.left-content {
+.leftContent {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -38,11 +38,11 @@ body {
 }
 
 
-.right-container {
+.rightContainer {
     flex: 0.6;
 }
 
-.right-content {
+.rightContent {
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -50,27 +50,30 @@ body {
     justify-content: center;
 }
 
-
 /* Media query for screens smaller than 600px */
 @media only screen and (max-width: 600px) {
     .container {
+        padding: 0;
+        margin: 0;
         flex-direction: column;
-    }
-
-    .left-container, .right-container {
-        width: 100%;
-    }
-    
-    .left-content {
-        font-size: 1rem;
-        margin-top: 20px;
-    }
-
-    .right-content {
-        width: 70%;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        height: 100vh;
+    }
+
+    .rightContainer {
+        margin-top: 10%;
+        width: 100%;
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
         align-items: center;
+    }
+
+    .leftContainer {
+        display: none;
+    }
+
+    .rightContent {
+        width: 70%; /* Adjust to your design */
     }
 }

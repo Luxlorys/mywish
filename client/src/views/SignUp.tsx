@@ -1,14 +1,14 @@
-import { Button, Center, Divider, FormControl, Image, Input, Text } from "@chakra-ui/react";
-import '../styles/signup.css';
+import { Button, Divider, FormControl, Image, Input, Text } from "@chakra-ui/react";
+import styles from '../styles/signup.module.css';
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import gmailLogo from '/assets/img/gmail_logo.png';
 import { Link } from "react-router-dom";
 
 export default function SignUp() {
     return (
-        <div className="container">
-            <div className="left-container">
-                <div className="left-content">
+        <div className={styles.container}>
+            <div className={styles.leftContainer}>
+                <div className={styles.leftContent}>
                     <Text as='b'> #1 Create an acoount</Text>
                     <Text as='b'>🛡️</Text>
                     
@@ -28,8 +28,8 @@ export default function SignUp() {
                 </div>
             </div>
 
-            <div className="right-container">
-                <div className="right-content">
+            <div className={styles.rightContainer}>
+                <div className={styles.rightContent}>
                     <Text fontSize='3xl' color='teal.600'>Create an account</Text>
                     <FormControl mt={5}>
                         <Input placeholder="username "/>
