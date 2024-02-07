@@ -4,7 +4,7 @@ const pool = require('../../db/mywish');
 class UserService {
     async getUsers(limit) {
         const query = await pool.query('SELECT * FROM users LIMIT $1', [limit]);
-        return query.rows;
+        return query.rows;  
     }
 
     async getUser(id) {

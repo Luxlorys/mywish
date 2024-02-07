@@ -11,6 +11,8 @@ router.get('/users/:id', userController.getUserById);
 
 // CATEGORIES
 router.post('/categories', categoryController.newCategory);
+router.get('/categories', categoryController.getCategories);
+router.delete('/categories', categoryController.deleteCategorie);
 
 // GIFTS
 router.post('/gifts', giftController.newGift);
