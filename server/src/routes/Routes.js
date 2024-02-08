@@ -16,5 +16,7 @@ router.delete('/categories', categoryController.deleteCategorie);
 
 // GIFTS
 router.post('/gifts', giftController.newGift);
+router.get('/gifts', giftController.getGifts);
+router.get('/gifts/:username', giftController.getGiftsForSpecificUser);
 
 module.exports = router;

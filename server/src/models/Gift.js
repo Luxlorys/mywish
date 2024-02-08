@@ -6,14 +6,14 @@ class Gift {
         this.status = status;
     }
 
-    static validate(data) {
+    async validate() {
         const errors = [];
 
-        if (!data.userId) {
+        if (!this.userId) {
             errors.push('user Id is required');
         }
 
-        if (!data.title || data.title.length < 3 || data.title.length > 30) {
+        if (!this.title || this.title.length < 3 || this.title.length > 30) {
             errors.push('Title length must be from 3 to 30 characters');
         }
 
