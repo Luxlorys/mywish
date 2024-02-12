@@ -7,26 +7,39 @@ class GiftService {
     }
 
     async getGifts() {
-        const sql = `
+        const query = `
             SELECT g.id, u.username, g.title, g.status, COALESCE(c.title, ${null}) AS category
             FROM gifts g
             LEFT JOIN categories c ON g.category_id = c.id
             JOIN users u ON g.user_id = u.id
         `;
-        const query = await pool.query(sql);
-        return query.rows;
+        const result = await pool.query(query);
+        return result.rows;
     }
 
     async getGiftsForSpecificUser(username) {
-        const sql = `
+        const query = `
             SELECT g.id, u.username, g.title, g.status, COALESCE(c.title, ${null}) AS category
             FROM gifts g
             LEFT JOIN categories c ON g.category_id = c.id
             JOIN users u ON g.user_id = u.id
             WHERE u.username = $1 
         `;
-        const query = await pool.query(sql, [username]);
-        return query.rows;
+        const result = await pool.query(query, [username]);
+        return result.rows;
+    }
+
+    async getGiftById(id) {
+        const query = 'SELECT * FROM gifts WHERE id = $1';
+        const result = await pool.query(query, [id]);
+        return result.rows;
+    }
+
+
+    async deleteGift(id) {
+        const query = 'DELETE FROM gifts WHERE id = $1';
+        const result = await pool.query(query, [id]);
+        return result.rows[0];
     }
 }
 

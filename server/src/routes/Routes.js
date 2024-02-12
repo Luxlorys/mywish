@@ -8,6 +8,7 @@ const router = express.Router();
 // USERS
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUserById);
+router.delete('/users/:id', userController.deleteUserById);
 
 // CATEGORIES
 router.post('/categories', categoryController.newCategory);
@@ -18,5 +19,6 @@ router.delete('/categories', categoryController.deleteCategorie);
 router.post('/gifts', giftController.newGift);
 router.get('/gifts', giftController.getGifts);
 router.get('/gifts/:username', giftController.getGiftsForSpecificUser);
+router.delete('/gifts/:id', giftController.deleteGift)
 
 module.exports = router;

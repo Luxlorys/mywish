@@ -40,7 +40,7 @@ const getGiftsForSpecificUser = async (req, res) => {
     const { username } = req.params;
 
     if (!username || username.length < 4) {
-        return res.status(400).json({ message: 'Invalid username' });
+        return res.status(406).json({ message: 'Invalid username' });
     }
 
     try {
@@ -59,9 +59,35 @@ const getGiftsForSpecificUser = async (req, res) => {
     }
 }
 
+const deleteGift = async (req, res) => {
+    const { id } = req.params;
+    const gift = await service.getGiftById(id);
+  
+    // Check if id is a valid integer
+    if (isNaN(parseInt(id))) {
+      return res.status(400).json({ message: 'Id must be a valid integer' });
+    }
+
+    // check whether there is gift in db
+    if (gift.length === 0) {
+        return res.status(400).json({ message: 'Gift not found' });
+    }
+  
+    try {
+      await service.deleteGift(id);
+  
+      return res.status(200).send({ message: `successfully deleted` });
+    } catch (error) {
+      console.error(`Error deleting gift ${id}:`, error);
+  
+      return res.status(500).json({ message: error });
+    }
+  };
+
 
 module.exports = {
     newGift,
     getGifts,
-    getGiftsForSpecificUser
+    getGiftsForSpecificUser,
+    deleteGift
 }
