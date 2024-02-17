@@ -1,3 +1,4 @@
+const User = require('../../models/User');
 const UserService = require('../../services/user/UserService');
 
 
@@ -18,6 +19,16 @@ const getUsers = async (req, res) => {
     }
 }
 
+const getUserByUsername = async (username) => {
+    try {
+        return await service.getUserByUsername(username);
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+}
+
+
 const getUserById = async (req, res) => {
     const { id } = req.params;
 
@@ -36,7 +47,7 @@ const getUserById = async (req, res) => {
 
 const deleteUserById = async (req, res) => {
     const { id } = req.params;
-    
+
     const user = await service.getUserById(id);
 
     if (isNaN(parseInt(id))) {
@@ -59,11 +70,34 @@ const deleteUserById = async (req, res) => {
 }
 
 
+const saveUser = async (req, res) => {
+    const { username, password, email } = req.body;
+    const user = new User(username, password, email);
+
+    const validationErrors = await user.validate();
+
+    if (validationErrors.length > 0) {
+        res.status(400).json({ errors: validationErrors});
+    }
+
+    const hashedPassword = await user.hashPassword();
+
+    try {
+        await service.saveUser(username, hashedPassword, email);
+        return res.status(200).json({ message: `${username} saved successfully`});
+    } catch (error) {
+        return res.status(400).json({ message: 'Failed to save new user' })
+    }
+}
+
+
 
 
 
 module.exports = {
     getUsers,
     getUserById,
-    deleteUserById
+    deleteUserById,
+    saveUser,
+    getUserByUsername
 };
