@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.1 (Ubuntu 16.1-1.pgdg22.04+1)
--- Dumped by pg_dump version 16.1 (Ubuntu 16.1-1.pgdg22.04+1)
+-- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -173,7 +173,8 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     username character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
-    image_id integer
+    image_id integer,
+    email character varying(255) NOT NULL
 );
 
 
@@ -237,91 +238,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: gromozeqa
---
-
-COPY public.categories (id, title) FROM stdin;
-1	sport
-2	hobbie
-3	books
-8	test
-10	electronics
-11	body title
-13	basketball
-\.
-
-
---
--- Data for Name: friendship; Type: TABLE DATA; Schema: public; Owner: gromozeqa
---
-
-COPY public.friendship (id, user1_id, user2_id, status) FROM stdin;
-\.
-
-
---
--- Data for Name: gifts; Type: TABLE DATA; Schema: public; Owner: gromozeqa
---
-
-COPY public.gifts (id, user_id, category_id, title, status) FROM stdin;
-7	1	\N	macbook 2019	available
-12	1	10	laptop	available
-\.
-
-
---
--- Data for Name: images; Type: TABLE DATA; Schema: public; Owner: gromozeqa
---
-
-COPY public.images (id, filename, filepath, mimetype) FROM stdin;
-\.
-
-
---
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: gromozeqa
---
-
-COPY public.users (id, username, password, image_id) FROM stdin;
-1	luxlorys	luxpassword	\N
-\.
-
-
---
--- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gromozeqa
---
-
-SELECT pg_catalog.setval('public.categories_id_seq', 14, true);
-
-
---
--- Name: friendship_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gromozeqa
---
-
-SELECT pg_catalog.setval('public.friendship_id_seq', 3, true);
-
-
---
--- Name: gifts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gromozeqa
---
-
-SELECT pg_catalog.setval('public.gifts_id_seq', 15, true);
-
-
---
--- Name: images_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gromozeqa
---
-
-SELECT pg_catalog.setval('public.images_id_seq', 1, false);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gromozeqa
---
-
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
-
-
---
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: gromozeqa
 --
 
@@ -367,6 +283,14 @@ ALTER TABLE ONLY public.images
 
 ALTER TABLE ONLY public.friendship
     ADD CONSTRAINT unique_users UNIQUE (user1_id, user2_id);
+
+
+--
+-- Name: users unqiue_constraint_email; Type: CONSTRAINT; Schema: public; Owner: gromozeqa
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT unqiue_constraint_email UNIQUE (email);
 
 
 --

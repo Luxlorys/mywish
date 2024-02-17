@@ -7,37 +7,29 @@ const userController = require('./userController');
 
 const MAX_AGE = 24 * 60 * 60; // 1 day
 
-const generateJWT = async (userId) => {
+const generateJWT = async (username) => {
     const uniqueId = crypto.randomBytes(16).toString('hex');
-    const payload = { userId, uniqueId };
+    const payload = { username, uniqueId };
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '24h'});
     return token;
 }
 
-const generateAndSetJWTCookie = async (userId, res) => {
-    const token = await generateJWT(userId);
+const generateAndSetJWTCookie = async (username, res) => {
+    const token = await generateJWT(username);
     res.cookie('jwt', token, { httpOnly: true, maxAge: MAX_AGE * 1000, secure: true });
 }
 
 
 async function authenticateUser(username, password) {
-    try {
-      const user = await userController.getUserByUsername(username);
-  
-      if (!user) {
-        throw new Error('User not found');
-      }
-  
-      const auth = await bcrypt.compare(password, user.password);
-  
-      if (!auth) {
-        throw new Error('Incorrect password');
-      }
-  
-      return user;
-    } catch (error) {
-      throw error;
-    }
+    const user = await userController.getUserByUsername(username);
+
+    if (!user) { throw new Error('User not found'); }
+
+    const auth = await bcrypt.compare(password, user.password);
+
+    if (!auth) { throw new Error('Incorrect password'); }
+
+    return user;
   }
 
 
@@ -54,7 +46,7 @@ const userLogin = async (req, res) => {
 
   try { 
     const user = await authenticateUser(username, password);
-    await generateAndSetJWTCookie(user.id, res);
+    await generateAndSetJWTCookie(user.username, res);
     return res.status(200).json({ user: username });
   } catch (error) {
     if (error.message === "User not found") {
@@ -81,5 +73,4 @@ const userLogOut = async (req, res) => {
 module.exports = {
     userLogin,
     userLogOut,
-    userLogOut
 }
