@@ -4,7 +4,6 @@ const pool = require('../../db/mywish');
 class UserService {
 
     async saveUser(username, password, email) {
-        console.log(`service ${username} ${password} ${email}`);
         const query = `
             INSERT INTO users (username, password, email)
             VALUES ($1, $2, $3)

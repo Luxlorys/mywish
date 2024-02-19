@@ -1,13 +1,21 @@
 const GiftService = require('../../services/gift/GiftService');
 const Gift = require('../../models/Gift');
+require('dotenv').config({ path: '../../../.env'});
+
 
 const service = new GiftService();
 
+// TODO remove dependency to userId
+// extract username from jwt
+// find user by username
+// extract user id from user object
+// pass user id to user instance
 const newGift = async (req, res) => {
     const { title, userId, categoryId } = req.body;
 
     try {
         const gift = new Gift(userId, title, categoryId);
+
         const validationErrors = await gift.validate();
     
         if (validationErrors.length > 0) {

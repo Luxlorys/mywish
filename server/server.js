@@ -13,7 +13,10 @@ const port = process.env.PORT || 3001;
 
 // third party middlewares
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true 
+  }));
 app.use(cookieParser());
 
 
