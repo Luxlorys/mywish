@@ -1,15 +1,21 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './auth.module.css';
-import { Button, Center, FormControl, Heading, Input, Link, Text } from "@chakra-ui/react";
+import { Button, Center, FormControl, Heading, Input, Link, Text, useToast } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
+import { ISignUp } from "../../api/auth/IuserAuthApi";
 
-export default function SignUp() {
+interface SignUpProps {
+    signUpApi: ISignUp
+}
+
+const SignUp: React.FC<SignUpProps> = ({ signUpApi }) => {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [email, setEmail] = useState<string>("");
 
+    const toast = useToast();
     const navigate = useNavigate();
 
     const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,23 +34,25 @@ export default function SignUp() {
     }
 
     const handleSignInClick = async () => {
+
         try {
-            const response = await fetch("http://localhost:3000/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password, email }),
-                credentials: "include",
-            });
+            const response = await signUpApi.post({ username, password, email })
 
             if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-                navigate("/signin"); // Перенаправление на другую страницу
+                toast({
+                    title: 'Registered successfully',
+                    status: 'success',
+                    onCloseComplete: () => {
+                        navigate("/signin")
+                    },
+                });
               } else {
                 const errorData = await response.json(); // Получение данных об ошибке
-                console.error("Login error:", errorData.message);
+
+                toast({
+                    title: errorData.errors[0],
+                    status: 'warning'
+                })
               }
 
         } catch (error) {
@@ -62,11 +70,11 @@ export default function SignUp() {
                     </Center>
                     
                     <Center>
-                      <Input onChange={handlePasswordChange} w='70%' mt={7} placeholder="password" type="password"/>
+                      <Input onChange={handlePasswordChange} w='70%' mt={5} placeholder="password" type="password"/>
                     </Center>
                     
                     <Center>
-                      <Input onChange={handleEmailChange} w='70%' mt={7} placeholder="email" type="email"/>
+                      <Input onChange={handleEmailChange} w='70%' mt={5} placeholder="email" type="email"/>
                     </Center>
 
                     <Center mt={5}>
@@ -83,4 +91,6 @@ export default function SignUp() {
             </div>
         </div>
     );
-}
+};
+
+export default SignUp;

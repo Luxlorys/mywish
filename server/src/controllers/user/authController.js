@@ -52,7 +52,7 @@ const userLogin = async (req, res) => {
     if (error.message === "User not found") {
         return res.status(404).json({ message: "User not found" });
     } else if (error.message === "Incorrect password") {
-        return res.status(401).json({ message: "Incorrect password" });
+        return res.status(404).json({ message: "Incorrect password" });
     } else {
         return res.status(500).json({ message: "Internal server error" });
     }

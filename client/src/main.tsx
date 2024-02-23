@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn.tsx'
 import SignUp from './pages/auth/SignUp.tsx'
+import { SignUpApi } from './api/auth/SignUpApi.ts'
 
 
 const router = createBrowserRouter([
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
 
   {
     path: "/signup",
-    element: <SignUp />
+    element: <SignUp signUpApi={ new SignUpApi() }/>
   }
 ])
 

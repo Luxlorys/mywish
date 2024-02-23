@@ -77,7 +77,7 @@ const saveUser = async (req, res) => {
     const validationErrors = await user.validate();
 
     if (validationErrors.length > 0) {
-        res.status(400).json({ errors: validationErrors});
+        return res.status(400).json({ errors: validationErrors});
     }
 
     const hashedPassword = await user.hashPassword();

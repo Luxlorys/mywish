@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './auth.module.css';
-import { Button, Center, FormControl, Heading, Input, Link, Text } from "@chakra-ui/react";
+import { Button, Center, FormControl, Heading, Input, Link, Text, useToast } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 
 export default function SignIn() {
@@ -10,6 +10,7 @@ export default function SignIn() {
     const [password, setPassword] = useState<string>("");
 
     const navigate = useNavigate();
+    const toast = useToast();
 
     const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -38,7 +39,10 @@ export default function SignIn() {
             navigate("/"); // Перенаправление на другую страницу
           } else {
             const errorData = await response.json(); // Получение данных об ошибке
-            console.error("Login error:", errorData.message);
+            toast({
+              title: errorData.message,
+              status: 'warning'
+            })
           }
         } catch (error) {
           console.error("Error:", error);
@@ -55,7 +59,7 @@ export default function SignIn() {
                     </Center>
                     
                     <Center>
-                      <Input onChange={handlePasswordChange} w='70%' mt={7} placeholder="password" type="password"/>
+                      <Input onChange={handlePasswordChange} w='70%' mt={5} placeholder="password" type="password"/>
                     </Center>
 
                     <Center mt={5}>
